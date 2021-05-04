@@ -16,9 +16,21 @@ pipeline {
         }
 
         stage('cov_matrix') {
-          steps {
-            echo 'cov matrix'
-          }
+          matrix {
+                axes {
+                    axis {
+                        name "RSERVICE_REPO"
+                        values "COMMON_ARCH_X86_64", "UTILS_ARCH_X86_64", "LLDPD_ARCH_X86_64", "XPIF_ARCH_X86_64", "BFD_ARCH_X86_64"
+                    }
+                }
+                stages {
+                    stage('coverity') {
+                        steps {
+                            echo $RSERVICE_REPO
+                        }
+                    }
+                }
+            }
         }
 
       }
